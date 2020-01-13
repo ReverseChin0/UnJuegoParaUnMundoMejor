@@ -9,6 +9,9 @@ public class SonPololosIK : MonoBehaviour
     //public float distance = 0.0f, verticalOffset;
     public float initiallHIKweight, initialrHIKweight;
     float lHIKweight=0, rHIKweight=0;
+    //float lHIKweight = 1, rHIKweight = 1;
+
+
     public void SwitchWeights(bool _isIk)
     {
         if (!_isIk)
@@ -26,7 +29,7 @@ public class SonPololosIK : MonoBehaviour
     {
         anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, lHIKweight);
         anim.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandTgt.position);
-
+        
         anim.SetIKPositionWeight(AvatarIKGoal.RightHand, rHIKweight);
         anim.SetIKPosition(AvatarIKGoal.RightHand, RightHandTgt.position);
     }

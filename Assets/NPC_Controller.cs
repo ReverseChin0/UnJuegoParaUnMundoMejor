@@ -8,14 +8,16 @@ public class NPC_Controller : MonoBehaviour
     public float turnSpeed = 1.0f;
     public Transform Gncheck;
     bool Airborne = false;
-    public Transform GuyToFollow = null;
+    public Transform GuyToFollow = null, GuyFollowingMe=null, ActualGuyTrans=null;
     Rigidbody rb;
     Vector3 direccion = Vector3.zero, direccionFinal = Vector3.zero;
     Quaternion targetRotation;
     Collider Col;
-
+    bool isGrabbingNPC = false;
     public Animator ACon;
     float speed = 0;
+
+    SonPololosIK Iksmios;
 
     void Start()
     {
@@ -34,6 +36,8 @@ public class NPC_Controller : MonoBehaviour
         }
         targetRotation = transform.rotation;
         direccion = Vector3.zero;
+
+        Iksmios = GetComponent<SonPololosIK>();
     }
 
     void Update()
@@ -115,6 +119,8 @@ public class NPC_Controller : MonoBehaviour
         if (GuyToFollow)
         {
             direccion = GuyToFollow.position - transform.position;
+            Vector3 posicionManos = (ActualGuyTrans.position + transform.position)*0.5f ;
+            Iksmios.LeftHandTgt.position = posicionManos;
         }
         else
         {
