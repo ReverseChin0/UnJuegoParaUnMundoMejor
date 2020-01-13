@@ -7,7 +7,7 @@ public class CharacterMovement : MonoBehaviour
     public float InpuX = 0, InpuY = 0;
     public float VelMov = 1;
     public float turnSpeed = 1.0f;
-    public Transform camara,Gncheck;
+    public Transform camara,Gncheck,FollowPoint;
     public float jumpStrength = 5.0f;
     bool Airborne = false;
 
@@ -17,10 +17,10 @@ public class CharacterMovement : MonoBehaviour
     Collider Col;
 
     public Animator ACon;
-    int animState=0;
+    //int animState=0;
     float speed=0;
-    
 
+    public LayerMask npcs;
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class CharacterMovement : MonoBehaviour
 
         if (direccion.sqrMagnitude > 0.01f)
         {
-            animState = 1;
+            //animState = 1;
             //ACon.SetInteger("MoveState", animState);
             if (!Airborne)//Si no esta en el aire
             {
@@ -78,11 +78,19 @@ public class CharacterMovement : MonoBehaviour
         {
             if(!Airborne)
             direccionFinal = Vector3.zero;
-            animState = 0;
+            //animState = 0;
             ACon.SetFloat("Speed", 0);
             //Debug.LogError("quieto");
         }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            activateNPC(true);
+        }
+        else if(Input.GetMouseButtonDown(1))
+        {
+            activateNPC(false);
+        }
         
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
@@ -128,5 +136,31 @@ public class CharacterMovement : MonoBehaviour
             Airborne = true;
             //ACon.SetBool("Land", !Airborne);
         }
+    }
+
+    void activateNPC(bool _actve)
+    {
+        //Debug.Log("salu2, buscando npcs");
+        Collider[] enepeces = Physics.OverlapSphere(transform.position, 1.2f, npcs);
+
+        foreach(Collider _c in enepeces)
+        {
+            _c.GetComponent<SonPololosIK>().SwitchWeights(_actve);
+            if (_actve)
+            {
+                _c.GetComponent<NPC_Controller>().GuyToFollow = FollowPoint;
+            }
+            else
+            {
+                _c.GetComponent<NPC_Controller>().GuyToFollow = null;
+            }
+            
+        }   
+         
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, 1.2f);
     }
 }

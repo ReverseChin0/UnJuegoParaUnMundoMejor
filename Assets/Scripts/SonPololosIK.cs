@@ -6,11 +6,21 @@ public class SonPololosIK : MonoBehaviour
 {
     public Animator anim;
     public Transform LeftHandTgt,RightHandTgt;
-    public bool isIKactive = false;
     //public float distance = 0.0f, verticalOffset;
-    public LayerMask layer;
-    public float lHIKweight, rHIKweight;
-
+    public float initiallHIKweight, initialrHIKweight;
+    float lHIKweight=0, rHIKweight=0;
+    public void SwitchWeights(bool _isIk)
+    {
+        if (!_isIk)
+        {
+            lHIKweight = rHIKweight = 0.0f;
+        }
+        else
+        {
+            lHIKweight = initiallHIKweight;
+            rHIKweight = initialrHIKweight;
+        }
+    }
 
     private void OnAnimatorIK(int layerIndex)
     {
@@ -20,4 +30,6 @@ public class SonPololosIK : MonoBehaviour
         anim.SetIKPositionWeight(AvatarIKGoal.RightHand, rHIKweight);
         anim.SetIKPosition(AvatarIKGoal.RightHand, RightHandTgt.position);
     }
+
+   
 }
