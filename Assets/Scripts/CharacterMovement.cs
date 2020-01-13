@@ -19,7 +19,8 @@ public class CharacterMovement : MonoBehaviour
     public Animator ACon;
     int animState=0;
     float speed=0;
-   
+    
+
 
     void Start()
     {
