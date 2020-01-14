@@ -90,10 +90,8 @@ public class CharacterMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (activateNPC(true)) //si agarre a un wey
-            {
-                isGrabbing = true;
-            }
+            isGrabbing = activateNPC(true); //si agarre a un wey
+            
         }
         else if(Input.GetMouseButtonDown(1))
         {
@@ -158,11 +156,19 @@ public class CharacterMovement : MonoBehaviour
         if (enepeces.Length != 0)
         {
             misIks.SwitchWeights(_actve);
-            GuyFollowingMe = enepeces[0].transform;
-            //nuevo
-            enepeces[0].GetComponent<SonPololosIK>().SwitchWeights(_actve);
-            NPC_Controller _ref = enepeces[0].GetComponent<NPC_Controller>();
-
+            int indets = 0;
+            NPC_Controller _ref;
+            foreach (Collider _C in enepeces)
+            {
+                _ref = _C.GetComponent<NPC_Controller>();
+                if (_ref.isFollowingNPC == false)
+                    break;
+                indets++;
+            }
+            GuyFollowingMe = enepeces[indets].transform;
+            
+            enepeces[indets].GetComponent<SonPololosIK>().SwitchWeights(_actve);
+            _ref = enepeces[indets].GetComponent<NPC_Controller>();
             if (_actve)
             {
                 _ref.PointToFollow = FollowPoint;
@@ -173,6 +179,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 _ref.PointToFollow = null;
                 _ref.ActualGuyTrans = null;
+                _ref.findNPCs();
                 VelMov += 1.0f;
             }
             //nuevo
@@ -185,24 +192,6 @@ public class CharacterMovement : MonoBehaviour
         }
 
 
-        /*foreach(Collider _c in enepeces)
-        {
-            _c.GetComponent<SonPololosIK>().SwitchWeights(_actve);
-            NPC_Controller _ref = _c.GetComponent<NPC_Controller>();
-                
-            if (_actve)
-            {
-                _ref.PointToFollow = FollowPoint;
-                _ref.ActualGuyTrans = MyHand;
-                
-            }
-            else
-            {
-                _ref.PointToFollow = null;
-                _ref.ActualGuyTrans = null;
-            }
-        }*/
-        Debug.Log("VelMov:"+VelMov);
         return true;
     }
 

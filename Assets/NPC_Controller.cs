@@ -8,16 +8,18 @@ public class NPC_Controller : MonoBehaviour
     public float turnSpeed = 1.0f;// yOffsetHands=0.04f;
     public Transform Gncheck;
     bool Airborne = false;
-    public Transform PointToFollow = null, GuyFollowingMe=null, ActualGuyTrans=null;
+    public Transform PointToFollow = null, GuyFollowingMe=null, ActualGuyTrans=null, desiredPos=null, MyHand=null;
     Rigidbody rb;
     Vector3 direccion = Vector3.zero, direccionFinal = Vector3.zero;
     Quaternion targetRotation;
     Collider Col;
-    bool isGrabbingNPC = false;
+    public bool isGrabbingNPC = false,isFollowingNPC=false;
     public Animator ACon;
     float speed = 0;
 
+    Transform manoDcha = null;
     SonPololosIK Iksmios;
+    public LayerMask npcs;
 
     void Start()
     {
@@ -38,6 +40,7 @@ public class NPC_Controller : MonoBehaviour
         direccion = Vector3.zero;
 
         Iksmios = GetComponent<SonPololosIK>();
+        manoDcha = Iksmios.RightHandTgt;
     }
 
     void Update()
@@ -79,6 +82,10 @@ public class NPC_Controller : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
+        if (isGrabbingNPC)
+        {
+            PositionHands();
+        }
         JumpBehaviour();
     }
 
@@ -129,11 +136,63 @@ public class NPC_Controller : MonoBehaviour
         }
     }
 
-    /*private void OnDrawGizmos()
+    public void findNPCs()
     {
-        if (GuyToFollow)
+        if (!isGrabbingNPC)
         {
-            Gizmos.DrawWireSphere(Iksmios.LeftHandTgt.position, 0.2f);
+            Collider[] enepeces = Physics.OverlapSphere(transform.position + Vector3.up, 1.5f, npcs);
+            Debug.Log(enepeces.Length);
+            int indets = 0; bool encontrado = false;
+            if (enepeces.Length != 0)
+            {
+                while (!encontrado)
+                {
+                    if (enepeces[indets] == Col)
+                    {
+                        indets++;
+                    }
+                    else
+                    {
+                        encontrado = true;
+
+                    }
+                }
+                Iksmios.SwitchWeights(true);
+                GuyFollowingMe = enepeces[indets].transform;
+
+                enepeces[indets].GetComponent<SonPololosIK>().SwitchWeights(true);
+                NPC_Controller _ref = enepeces[indets].GetComponent<NPC_Controller>();
+
+                _ref.PointToFollow = desiredPos;
+                _ref.ActualGuyTrans = MyHand;
+                _ref.isFollowingNPC=true;
+                isGrabbingNPC = true;
+
+            }
+            else
+            {
+                GuyFollowingMe = null;
+
+                return;
+            }
         }
-    }*/
+
+        return;
+    }
+
+
+    void PositionHands()
+    {
+        Vector3 posicionManos = GuyFollowingMe.position + transform.position;
+        posicionManos *= 0.5f;
+        posicionManos.y = transform.position.y + 1.0f;
+        manoDcha.transform.position = posicionManos;
+    }
+
+    /* private void OnDrawGizmos()
+     {
+
+         Gizmos.DrawWireSphere(transform.position+Vector3.up, 1.5f);
+
+     }*/
 }
