@@ -5,10 +5,10 @@ using UnityEngine;
 public class NPC_Controller : MonoBehaviour
 {
     public float VelMov = 1;
-    public float turnSpeed = 1.0f;
+    public float turnSpeed = 1.0f;// yOffsetHands=0.04f;
     public Transform Gncheck;
     bool Airborne = false;
-    public Transform GuyToFollow = null, GuyFollowingMe=null, ActualGuyTrans=null;
+    public Transform PointToFollow = null, GuyFollowingMe=null, ActualGuyTrans=null;
     Rigidbody rb;
     Vector3 direccion = Vector3.zero, direccionFinal = Vector3.zero;
     Quaternion targetRotation;
@@ -57,7 +57,7 @@ public class NPC_Controller : MonoBehaviour
                 
                 speed = direccionFinal.sqrMagnitude/1;
                 ACon.SetFloat("Speed", speed);
-                targetRotation = GuyToFollow.rotation;
+                targetRotation = PointToFollow.rotation;
             }
             else
             {
@@ -65,7 +65,7 @@ public class NPC_Controller : MonoBehaviour
                 direccionFinal.Set(direccionFinal.x, 0, direccionFinal.z);
 
 
-                targetRotation = GuyToFollow.rotation;
+                targetRotation = PointToFollow.rotation;
                 //direccionFinal = previousDirection + (direccionFinal * 0.4f);
             }
 
@@ -116,10 +116,11 @@ public class NPC_Controller : MonoBehaviour
 
     void CalculateDirection()
     {
-        if (GuyToFollow)
+        if (PointToFollow)
         {
-            direccion = GuyToFollow.position - transform.position;
-            Vector3 posicionManos = (ActualGuyTrans.position + transform.position)*0.5f ;
+            direccion = PointToFollow.position - transform.position;
+            Vector3 posicionManos = ActualGuyTrans.position;
+            //posicionManos.y = transform.position.y + 1;
             Iksmios.LeftHandTgt.position = posicionManos;
         }
         else
@@ -127,4 +128,12 @@ public class NPC_Controller : MonoBehaviour
             direccion = Vector3.zero;
         }
     }
+
+    /*private void OnDrawGizmos()
+    {
+        if (GuyToFollow)
+        {
+            Gizmos.DrawWireSphere(Iksmios.LeftHandTgt.position, 0.2f);
+        }
+    }*/
 }

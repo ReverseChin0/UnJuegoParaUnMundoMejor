@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float InpuX = 0, InpuY = 0;
+    public float InpuX = 0, InpuY = 0;// yHandsOffset=0;
     public float VelMov = 1;
     public float turnSpeed = 1.0f;
-    public Transform camara,Gncheck,FollowPoint, GuyFollowingMe = null;
+    public Transform camara,Gncheck,FollowPoint, GuyFollowingMe = null, MyHand = null;
     public float jumpStrength = 5.0f;
     bool Airborne = false, isGrabbing=false;
 
@@ -159,30 +159,50 @@ public class CharacterMovement : MonoBehaviour
         {
             misIks.SwitchWeights(_actve);
             GuyFollowingMe = enepeces[0].transform;
+            //nuevo
+            enepeces[0].GetComponent<SonPololosIK>().SwitchWeights(_actve);
+            NPC_Controller _ref = enepeces[0].GetComponent<NPC_Controller>();
+
+            if (_actve)
+            {
+                _ref.PointToFollow = FollowPoint;
+                _ref.ActualGuyTrans = MyHand;
+                VelMov -= 1.0f;
+            }
+            else
+            {
+                _ref.PointToFollow = null;
+                _ref.ActualGuyTrans = null;
+                VelMov += 1.0f;
+            }
+            //nuevo
         }
         else
         {
             GuyFollowingMe = null;
+            
             return false;
         }
-      
 
-        foreach(Collider _c in enepeces)
+
+        /*foreach(Collider _c in enepeces)
         {
             _c.GetComponent<SonPololosIK>().SwitchWeights(_actve);
             NPC_Controller _ref = _c.GetComponent<NPC_Controller>();
                 
             if (_actve)
             {
-                _ref.GuyToFollow = FollowPoint;
-                _ref.ActualGuyTrans = transform;
+                _ref.PointToFollow = FollowPoint;
+                _ref.ActualGuyTrans = MyHand;
+                
             }
             else
             {
-                _ref.GuyToFollow = null;
+                _ref.PointToFollow = null;
                 _ref.ActualGuyTrans = null;
             }
-        }
+        }*/
+        Debug.Log("VelMov:"+VelMov);
         return true;
     }
 
@@ -190,7 +210,16 @@ public class CharacterMovement : MonoBehaviour
     {
         Vector3 posicionManos = GuyFollowingMe.position+transform.position;
         posicionManos *= 0.5f;
+        posicionManos.y = transform.position.y + 0.04f;
         manoDcha.transform.position = posicionManos;
     }
 
+
+   /* private void OnDrawGizmos()
+    {
+        if (GuyFollowingMe)
+        {
+            Gizmos.DrawWireSphere(manoDcha.transform.position, 0.2f);
+        }
+    }*/
 }
