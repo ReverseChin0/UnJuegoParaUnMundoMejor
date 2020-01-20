@@ -141,11 +141,11 @@ public class NPC_Controller : MonoBehaviour
         if (!isGrabbingNPC)
         {
             Collider[] enepeces = Physics.OverlapSphere(transform.position + Vector3.up, 1.5f, npcs);
-            Debug.Log(enepeces.Length);
+           
             int indets = 0; bool encontrado = false;
             if (enepeces.Length != 0)
             {
-                while (!encontrado)
+                while (indets < enepeces.Length)
                 {
                     if (enepeces[indets] == Col)
                     {
@@ -154,20 +154,22 @@ public class NPC_Controller : MonoBehaviour
                     else
                     {
                         encontrado = true;
-
+                        break;
                     }
                 }
-                Iksmios.SwitchWeights(true);
-                GuyFollowingMe = enepeces[indets].transform;
+                if(encontrado)
+                {
+                    Iksmios.SwitchWeights(true);
+                    GuyFollowingMe = enepeces[indets].transform;
 
-                enepeces[indets].GetComponent<SonPololosIK>().SwitchWeights(true);
-                NPC_Controller _ref = enepeces[indets].GetComponent<NPC_Controller>();
+                    enepeces[indets].GetComponent<SonPololosIK>().SwitchWeights(true);
+                    NPC_Controller _ref = enepeces[indets].GetComponent<NPC_Controller>();
 
-                _ref.PointToFollow = desiredPos;
-                _ref.ActualGuyTrans = MyHand;
-                _ref.isFollowingNPC=true;
-                isGrabbingNPC = true;
-
+                    _ref.PointToFollow = desiredPos;
+                    _ref.ActualGuyTrans = MyHand;
+                    _ref.isFollowingNPC = true;
+                    isGrabbingNPC = true;
+                }
             }
             else
             {
@@ -187,6 +189,14 @@ public class NPC_Controller : MonoBehaviour
         posicionManos *= 0.5f;
         posicionManos.y = transform.position.y + 1.0f;
         manoDcha.transform.position = posicionManos;
+    }
+
+    public void DropHands()
+    {
+        PointToFollow = GuyFollowingMe = ActualGuyTrans = null;
+        isFollowingNPC = false;
+        isGrabbingNPC = false;
+        Iksmios.SwitchWeights(false);
     }
 
     /* private void OnDrawGizmos()

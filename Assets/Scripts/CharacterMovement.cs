@@ -51,6 +51,33 @@ public class CharacterMovement : MonoBehaviour
         direccion.x = InpuX;
         direccion.z = InpuY;
 
+        MoveBehaviour();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            isGrabbing = activateNPC(true); //si agarre a un wey
+            
+        }
+        else if(Input.GetMouseButtonDown(1))//soltarwey;
+        {
+            activateNPC(false);
+            isGrabbing = false;
+        }
+        else if (Input.GetMouseButtonDown(2))
+        {
+            SueltenseTodos();
+        }
+
+        if (isGrabbing)
+            PositionHands();
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+
+        JumpBehaviour();
+    }
+
+    void MoveBehaviour()
+    {
         if (direccion.sqrMagnitude > 0.01f)
         {
             //animState = 1;
@@ -77,34 +104,16 @@ public class CharacterMovement : MonoBehaviour
                 targetRotation = Quaternion.LookRotation(direccionFinal.normalized);
                 direccionFinal = previousDirection + (direccionFinal * 0.4f);
             }
-            
+
         }
         else
         {
-            if(!Airborne)
-            direccionFinal = Vector3.zero;
+            if (!Airborne)
+                direccionFinal = Vector3.zero;
             //animState = 0;
             ACon.SetFloat("Speed", 0);
             //Debug.LogError("quieto");
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            isGrabbing = activateNPC(true); //si agarre a un wey
-            
-        }
-        else if(Input.GetMouseButtonDown(1))
-        {
-            activateNPC(false);
-            isGrabbing = false;
-        }
-
-        if (isGrabbing)
-            PositionHands();
-        
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-
-        JumpBehaviour();
     }
 
     private void FixedUpdate()
@@ -114,7 +123,7 @@ public class CharacterMovement : MonoBehaviour
 
     private bool GndCheck()
     {
-        Debug.DrawLine(Gncheck.position, Gncheck.position+ (Vector3.down*0.2f), Color.red);
+        //Debug.DrawLine(Gncheck.position, Gncheck.position+ (Vector3.down*0.2f), Color.red);
         if (Physics.Raycast(Gncheck.position, Vector3.down, 0.2f))
         {
             ACon.SetBool("Land", true);
@@ -130,12 +139,11 @@ public class CharacterMovement : MonoBehaviour
         if (GndCheck())
         {
             Airborne = false;
-            //ACon.SetBool("Land",!Airborne);
             if (Input.GetButtonDown("Jump"))
             {
                 rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+                previousDirection = direccionFinal;
                 Airborne = true;
-                //ACon.SetBool("Land", !Airborne);
                 ACon.SetTrigger("Jumped");
             }
         }
@@ -165,24 +173,29 @@ public class CharacterMovement : MonoBehaviour
                     break;
                 indets++;
             }
-            GuyFollowingMe = enepeces[indets].transform;
+            if(indets < enepeces.Length)
+            {
+                GuyFollowingMe = enepeces[indets].transform;
+                enepeces[indets].GetComponent<SonPololosIK>().SwitchWeights(_actve);
+                _ref = enepeces[indets].GetComponent<NPC_Controller>();
+                if (_actve)
+                {
+                    _ref.PointToFollow = FollowPoint;
+                    _ref.ActualGuyTrans = MyHand;
+                    //VelMov -= 1.0f;
+                    return true;
+                }
+                else
+                {
+                    _ref.PointToFollow = null;
+                    _ref.ActualGuyTrans = null;
+                    _ref.findNPCs();
+                    //VelMov += 1.0f;
+                    return false;
+                }
+            }
             
-            enepeces[indets].GetComponent<SonPololosIK>().SwitchWeights(_actve);
-            _ref = enepeces[indets].GetComponent<NPC_Controller>();
-            if (_actve)
-            {
-                _ref.PointToFollow = FollowPoint;
-                _ref.ActualGuyTrans = MyHand;
-                VelMov -= 1.0f;
-            }
-            else
-            {
-                _ref.PointToFollow = null;
-                _ref.ActualGuyTrans = null;
-                _ref.findNPCs();
-                VelMov += 1.0f;
-            }
-            //nuevo
+            
         }
         else
         {
@@ -192,9 +205,21 @@ public class CharacterMovement : MonoBehaviour
         }
 
 
-        return true;
+        return false;
     }
 
+
+    void SueltenseTodos()
+    {
+        isGrabbing = false;
+        misIks.SwitchWeights(false);
+        Collider[] enepeces = Physics.OverlapSphere(transform.position, 1.2f, npcs);
+
+        foreach(Collider _c in enepeces)
+        {
+            _c.GetComponent<NPC_Controller>().DropHands();
+        }
+    }
     void PositionHands()
     {
         Vector3 posicionManos = GuyFollowingMe.position+transform.position;
