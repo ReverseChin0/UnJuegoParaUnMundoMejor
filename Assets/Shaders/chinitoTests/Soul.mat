@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PEV_Soul
-  m_Shader: {fileID: 4800000, guid: 92e1d4b1a6e39f946847bc52291e209d, type: 3}
+  m_Name: Soul
+  m_Shader: {fileID: 4800000, guid: bf6da576f0ee9fc4592e4ed9e5092a78, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,6 +21,6 @@ Material:
     m_TexEnvs: []
     m_Floats:
     - _Cutoff: 0.5
-    - _ExponentFresnel: 0.58
+    - _exponentFresnel: 0.4630659
     m_Colors:
-    - _MainFresnelColor: {r: 0.08018868, g: 0.235044, b: 0.3207547, a: 1}
+    - __Color: {r: 0.8356049, g: 1, b: 0, a: 1}
