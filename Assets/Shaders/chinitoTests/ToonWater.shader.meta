@@ -4,7 +4,8 @@ ShaderImporter:
   externalObjects: {}
   defaultTextures:
   - _WaterNoise: {fileID: 2800000, guid: 28c7aad1372ff114b90d330f8a2dd938, type: 3}
-  - _Caustics: {fileID: 2800000, guid: 931d3ab4ca37da04fbc326fa72ff808b, type: 3}
+  - _Foam: {fileID: 2800000, guid: 931d3ab4ca37da04fbc326fa72ff808b, type: 3}
+  - _CaustiTexture: {fileID: 2800000, guid: a185bf824c7042642b43847069b3c2c0, type: 3}
   nonModifiableTextures: []
   userData: 
   assetBundleName: 
