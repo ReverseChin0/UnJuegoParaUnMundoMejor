@@ -41,13 +41,13 @@ ParticleSystem:
   m_GameObject: {fileID: 2799925643208911484}
   serializedVersion: 6
   lengthInSec: 1.3
-  simulationSpeed: 1
+  simulationSpeed: 10
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  looping: 1
-  prewarm: 1
+  looping: 0
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -115,7 +115,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.3
+      scalar: 13
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -9589,6 +9589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9052912480481684658}
+  - component: {fileID: 3075150246811034460}
   m_Layer: 0
   m_Name: ParticulasQuedar
   m_TagString: Untagged
@@ -9612,3 +9613,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3075150246811034460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6618305614097893010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d529a4a5fe77045956eac428a8fee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particulitas:
+  - {fileID: 5388069129529731485}
+  - {fileID: 8573398828544944870}
+  myForcefield: {fileID: 0}
+  duration: 1.3

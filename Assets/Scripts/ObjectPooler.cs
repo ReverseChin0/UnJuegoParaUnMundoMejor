@@ -47,9 +47,11 @@ public class ObjectPooler : MonoBehaviour
                 //objetillo.SetActive(false);
 
                 objectPool.Add(objetillo);
+                objetillo.SetActive(false);
             }
             //Añade este pool al diccionario
             poolDiccionario.Add(pool.etiqueta, objectPool);
+           
         }
     }
 
@@ -70,7 +72,7 @@ public class ObjectPooler : MonoBehaviour
         //=========================================================\\
 
         //GameObject ObjetoaSpawnear = poolDiccionario[tag].Dequeue();
-        int _i = 0;
+        int _i;
         bool HayDesactivada = false;
         for (_i = 0; _i < poolDiccionario[tag].Count; _i++)
         {

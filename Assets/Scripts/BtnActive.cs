@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class BtnActive : MonoBehaviour
 {
-    public Animator Puerta;
+    public Animator[] activables;
     bool hasbeenused=false;
     public int requeridos=0;
     int actuales = 0;
@@ -26,10 +26,13 @@ public class BtnActive : MonoBehaviour
         else
         {
             hasbeenused=true;
-            Puerta.SetTrigger("Abrir");
+            foreach (Animator an in activables)
+            {
+                an.SetTrigger("Abrir");
+            }
+            
             rquiredText.text = actuales.ToString() + "/" + requeridos.ToString();
         }
-        
     }
 
     private void OnTriggerExit(Collider other)

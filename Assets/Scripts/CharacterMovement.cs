@@ -56,16 +56,19 @@ public class CharacterMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             isGrabbing = activateNPC(true); //si agarre a un wey
+            ObjectPooler.instancia.SpawnFromPool("ParticulasUnion", transform.position + (Vector3.down *0.75f), transform.rotation).GetComponent<ParticleController>().activarParticulas(transform);
             
         }
         else if(Input.GetMouseButtonDown(1))//soltarwey;
         {
             activateNPC(false);
             isGrabbing = false;
+            ObjectPooler.instancia.SpawnFromPool("ParticulasQuedar", transform.position + (Vector3.down * 0.75f), transform.rotation).GetComponent<ParticleController>().activarParticulas(transform);
         }
-        else if (Input.GetMouseButtonDown(2))
+        else if (Input.GetMouseButtonDown(2))//sueltensetodosjotos
         {
             SueltenseTodos();
+            ObjectPooler.instancia.SpawnFromPool("ParticulasSoltar", transform.position + (Vector3.down * 0.75f), transform.rotation).GetComponent<ParticleController>().activarParticulas(transform);
         }
 
         if (isGrabbing)

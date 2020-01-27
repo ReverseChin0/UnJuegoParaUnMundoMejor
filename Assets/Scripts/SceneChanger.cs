@@ -5,11 +5,41 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour
 {
     public string scenetogo = "";
+    public Animator anim;
+    GameObject miFader;
+    public bool notActivated = true;
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+        StartCoroutine(SearchFader());
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && notActivated)
         {
-            SceneManager.LoadScene(scenetogo);
+            StartCoroutine(LoadLevel());
         }
     }
+
+    public IEnumerator SearchFader() 
+    {
+        yield return new WaitForSeconds(1f);
+        miFader=GameObject.FindGameObjectWithTag("fader");
+        DontDestroyOnLoad(miFader);
+        anim = miFader.GetComponent<Animator>();
+    }
+
+    public IEnumerator LoadLevel()
+    {
+        notActivated = false;
+        anim.SetTrigger("Fade");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(scenetogo);
+        yield return new WaitForSeconds(1f);
+        anim.SetTrigger("EndLoad");
+        Debug.Log("EndLoad");
+        yield return new WaitForSeconds(3f);
+        //Destroy(gameObject);
+    }
+
 }
