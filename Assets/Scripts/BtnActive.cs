@@ -11,6 +11,11 @@ public class BtnActive : MonoBehaviour
     int actuales = 0;
     public TextMeshProUGUI rquiredText;
 
+    private void Start()
+    {
+        rquiredText.text = actuales.ToString() + "/" + requeridos.ToString();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         actuales++;
