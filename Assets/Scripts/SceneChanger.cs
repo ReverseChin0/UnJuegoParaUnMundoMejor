@@ -49,7 +49,7 @@ public class SceneChanger : MonoBehaviour
         anim.SetTrigger("EndLoad");
         Debug.Log("EndLoad");
         yield return new WaitForSeconds(3f);
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 
 }
