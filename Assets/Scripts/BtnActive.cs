@@ -6,7 +6,7 @@ using UnityEngine;
 public class BtnActive : MonoBehaviour
 {
     public Animator[] activables;
-    bool hasbeenused=false;
+    public bool hasbeenused=false;
     public int requeridos=0;
     int actuales = 0;
     public TextMeshProUGUI rquiredText;

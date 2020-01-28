@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TierraFinal
+  m_Shader: {fileID: 4800000, guid: d82496ed8977b05418d92fcdbb7b1bc7, type: 3}
+  m_ShaderKeywords: _INVERTSPECULARMAS_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _CausticsTex:
+        m_Texture: {fileID: 2800000, guid: c11b3668cbc41134aac6051ed1f283e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LightnesOfTheDarkSide:
+        m_Texture: {fileID: 2800000, guid: 7f25c295617667b48baff65c4aa311be, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 31c5726367fe2b94b8cfba4bf0b0df47, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: 60677ec466f5850439c494866da90c8b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecularMask:
+        m_Texture: {fileID: 2800000, guid: dff0d35fed3e27749b06d396e5a1e94c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _CloudSpeed: -0.022
+    - _DarkseideLightsIntensity: 3
+    - _EarthSpeed: -0.01
+    - _InvertSpecularMas: 1
+    - _RimIntensity: 2
+    - _RimLightColor: 0
+    - _RimPower: 1.45
+    - _SpecularIntensity: 0.71
+    - _SpecularPower: 4.21
+    - _UseSpecularColor: 0
+    - _normal_intensity: 0.52
+    - _usePerturbedNormal: 0
+    m_Colors:
+    - _CloudsColor: {r: 0.44313726, g: 0.44313726, b: 0.44313726, a: 1}
+    - _DarSideColorLights: {r: 1, g: 0.7045614, b: 0, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0.27305093, g: 0.84269303, b: 0.9811321, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}

@@ -162,7 +162,7 @@ public class CharacterMovement : MonoBehaviour
     bool activateNPC(bool _actve)
     {
         //Debug.Log("salu2, buscando npcs");
-        Collider[] enepeces = Physics.OverlapSphere(transform.position, 1.2f, npcs);
+        Collider[] enepeces = Physics.OverlapSphere(transform.position, 1.5f, npcs);
 
         if (enepeces.Length != 0)
         {
