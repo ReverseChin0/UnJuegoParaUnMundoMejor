@@ -7,7 +7,7 @@ public class SceneChanger : MonoBehaviour
     public string scenetogo = "";
     public Animator anim;
     GameObject miFader;
-    public bool notActivated = true;
+    public bool notActivated = true,Reset=false;
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -17,6 +17,16 @@ public class SceneChanger : MonoBehaviour
     {
         if (other.CompareTag("Player") && notActivated)
         {
+            StartCoroutine(LoadLevel());
+        }
+    }
+
+    private void Update()
+    {
+        if (!Reset && Input.GetKeyDown(KeyCode.R))
+        {
+            Reset = true;
+            scenetogo = SceneManager.GetActiveScene().name;
             StartCoroutine(LoadLevel());
         }
     }
